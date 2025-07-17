@@ -3,7 +3,7 @@ import { addCacheDirectiveIfNotExists, clickCacheSettingsButtonForDomain } from 
 
 const domains = ['test01.p9m.net', 'test02.p9m.net', 'test03.p9m.net'];
 
-test.describe('Cache Mode Test ', () => {
+test.describe('Cache Mode Test ', () => { 
     for (const domain of domains) {
 
         test(`Validating Cache mode for ${domain}`, async ({ page }) => {
@@ -11,14 +11,8 @@ test.describe('Cache Mode Test ', () => {
             await page.fill('#username', 'qa.assessment@asians.cloud');
             await page.fill('#password', 'qaengineer123');
             await page.click('#kc-login');
-
-            // Click the Cache Settings button for the domain
             await clickCacheSettingsButtonForDomain(page, domain);
-
-            // Ensure correct domain is selected
             await expect(page.getByRole('heading', { name: domain })).toBeVisible();
-
-            // Add cache directive if not already selected
             const flag = await addCacheDirectiveIfNotExists(page, 'public');
             if (flag) {
                 await expect(page.getByText('Save Success')).toBeVisible();
@@ -28,7 +22,6 @@ test.describe('Cache Mode Test ', () => {
                 await expect(page.getByText('Cannot add same directive twice.')).toBeVisible();
                 console.log("Cache mode is alredy existed")
             }
-
         })
     }
 });
